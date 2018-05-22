@@ -1,0 +1,5 @@
+dependencies {
+  compile project(':lightbend-microprofile-reactive-messaging-kafka')
+  compile 'org.jboss.weld.se:weld-se-core:3.0.4.Final'
+  compile 'org.glassfish:javax.json:1.1.2'
+}

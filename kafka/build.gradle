@@ -1,0 +1,4 @@
+dependencies {
+  compile project(':lightbend-microprofile-reactive-messaging')
+  compile 'com.typesafe.akka:akka-stream-kafka_2.12:0.20'
+}

@@ -1,0 +1,7 @@
+dependencies {
+  compile libraries.akka_microprofile_reactive_streams
+  compile libraries.microprofile_reactive_messaging
+  compile "javax.enterprise:cdi-api:2.0"
+  compile "com.google.guava:guava:25.0-jre"
+  compile "org.eclipse:yasson:1.0.1"
+}
