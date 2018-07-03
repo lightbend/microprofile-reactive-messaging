@@ -91,7 +91,7 @@ class ValidatedSubscribingStreamRunner<T> implements StreamRunner {
       Flow<Message<T>, Message<?>, ?> flow;
       if (wrappedIncoming()) {
         flow = ((Flow<Message<T>, ?, ?>) rawFlow)
-            .map(r -> Message.ackableMessage(r, () -> CompletableFuture.completedFuture(null)));
+            .map(Message::of);
       } else if (descriptor.isIncomingDestinationWrapped()) {
         flow = Flow.<Message<T>>create()
             .map(Message::getPayload)
@@ -100,7 +100,7 @@ class ValidatedSubscribingStreamRunner<T> implements StreamRunner {
         flow = Flow.<Message<T>>create()
             .map(Message::getPayload)
             .via((Flow<T, ?, ?>) rawFlow)
-            .map(r -> Message.ackableMessage(r, () -> CompletableFuture.completedFuture(null)));
+            .map(Message::of);
       }
 
       return FlowUtils.bypassFlow((Flow) flow);

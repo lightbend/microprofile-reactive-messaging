@@ -75,7 +75,7 @@ class ValidatedPublishingStreamRunner<T> implements StreamRunner {
           } else {
             // Since the published messages don't need to be acked, we just wrap them in a dummy message, and don't worry about
             // acking it.
-            return rawSource.map(payload -> Message.ackableMessage(payload, () -> CompletableFuture.completedFuture(null)))
+            return rawSource.map(payload -> Message.of(payload))
                 .via(consumer)
                 .map(m -> Done.getInstance());
           }

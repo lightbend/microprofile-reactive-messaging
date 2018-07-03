@@ -67,7 +67,7 @@ class ValidatedProcessingStreamRunner<T, R> implements StreamRunner {
       Flow<Message<T>, Message<R>, ?> flow;
       if (wrappedIncoming()) {
         flow = ((Flow<Message<T>, R, ?>) rawFlow)
-            .map(r -> Message.ackableMessage(r, () -> CompletableFuture.completedFuture(null)));
+            .map(Message::of);
       } else if (wrappedOutgoing()) {
         flow = Flow.<Message<T>>create()
             .map(Message::getPayload)
@@ -76,7 +76,7 @@ class ValidatedProcessingStreamRunner<T, R> implements StreamRunner {
         flow = Flow.<Message<T>>create()
             .map(Message::getPayload)
             .via((Flow<T, R, ?>) rawFlow)
-            .map(r -> Message.ackableMessage(r, () -> CompletableFuture.completedFuture(null)));
+            .map(Message::of);
       }
 
       return FlowUtils.bypassFlow(flow).viaMat(consumer, Keep.right());

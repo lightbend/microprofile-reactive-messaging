@@ -40,7 +40,7 @@ public class LightbendReactiveMessagingCdiExtension implements Extension {
   private final Collection<StreamsInjectionTarget<?>> allStreamingBeans = new ArrayList<>();
 
   public void registerBeans(@Observes BeforeBeanDiscovery bbd) {
-    bbd.addAnnotatedType(StreamManager.class, StreamManager.class.getName());
+    bbd.addAnnotatedType(StreamManagerImpl.class, StreamManagerImpl.class.getName());
   }
 
   public <T> void locateStreams(@Observes ProcessInjectionTarget<T> bean, BeanManager beanManager) {

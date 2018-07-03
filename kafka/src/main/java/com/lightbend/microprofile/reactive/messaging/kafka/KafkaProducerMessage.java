@@ -42,8 +42,4 @@ public class KafkaProducerMessage<K, T> implements Message<T> {
     return ack.get();
   }
 
-  @Override
-  public <R> KafkaProducerMessage<K, R> withPayload(R payload) {
-    return new KafkaProducerMessage<>(key, payload, ack);
-  }
 }

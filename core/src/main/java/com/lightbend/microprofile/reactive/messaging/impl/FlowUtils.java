@@ -40,7 +40,7 @@ public class FlowUtils {
       builder.from(bcast).toInlet(zip.in1());
 
       Flow<Pair<Message<R>, Message<T>>, Message<R>, NotUsed> zipF = Flow.<Pair<Message<R>, Message<T>>>create().map(pair ->
-          Message.ackableMessage(pair.first().getPayload(), () ->
+          Message.of(pair.first().getPayload(), () ->
               CompletableFuture.allOf(pair.first().ack().toCompletableFuture(), pair.second().ack().toCompletableFuture()))
       );
 
