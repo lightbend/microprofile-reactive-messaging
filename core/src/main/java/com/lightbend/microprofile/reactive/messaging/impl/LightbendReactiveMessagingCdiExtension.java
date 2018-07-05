@@ -123,7 +123,7 @@ public class LightbendReactiveMessagingCdiExtension implements Extension {
       if (method.getJavaMember().getParameterCount() != 1) {
         throw new DefinitionException(CompletionStage.class + " returning method " + toString(method) + " must take exactly one parameter for input messages");
       }
-      Type inType = method.getJavaMember().getParameterTypes()[0];
+      Type inType = method.getJavaMember().getGenericParameterTypes()[0];
       Type outType = Reflections.getTypeArgumentsFor(returnType, CompletionStage.class, "return type of", method)[0];
       return readProcessorShape(bean, method, inType, outType, StreamShape.ASYNCHRONOUS_METHOD);
 
@@ -133,7 +133,7 @@ public class LightbendReactiveMessagingCdiExtension implements Extension {
       if (method.getJavaMember().getParameterCount() != 1) {
         throw new DefinitionException(CompletionStage.class + " returning method " + toString(method) + " must take exactly one parameter for input messages");
       }
-      Type inType = method.getJavaMember().getParameterTypes()[0];
+      Type inType = method.getJavaMember().getGenericParameterTypes()[0];
       Type outType = returnType.getRawType();
       return readProcessorShape(bean, method, inType, outType, StreamShape.SYNCHRONOUS_METHOD);
     }

@@ -31,4 +31,11 @@ class KafkaConsumerMessageImpl<K, T> implements KafkaConsumerMessage<K, T> {
   public CompletionStage<Void> ack() {
     return message.committableOffset().commitJavadsl().thenApply(d -> null);
   }
+
+  @Override
+  public String toString() {
+    return "KafkaConsumerMessage{" +
+        "message=" + message +
+        '}';
+  }
 }

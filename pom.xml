@@ -60,6 +60,7 @@
         <module>core</module>
         <module>akka</module>
         <module>kafka</module>
+        <module>kafka-tck</module>
         <module>example</module>
     </modules>
 

@@ -1,4 +1,4 @@
-package com.lightbend.microprofile.reactive.messaging.kafka;
+package com.lightbend.microprofile.reactive.messaging.kafka.tck;
 
 import akka.actor.ActorSystem;
 import akka.kafka.ConsumerSettings;
@@ -14,8 +14,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.eclipse.microprofile.reactive.messaging.Message;
-import org.eclipse.microprofile.reactive.messaging.tck.mocks.SimpleMessage;
-import org.eclipse.microprofile.reactive.messaging.tck.spi.TckLocalContainerController;
+import org.eclipse.microprofile.reactive.messaging.tck.framework.SimpleMessage;
+import org.eclipse.microprofile.reactive.messaging.tck.spi.TckMessagingPuppet;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
 
 @ApplicationScoped
-public class KafkaTckLocalContainerController implements TckLocalContainerController {
+public class KafkaTckLocalContainerController implements TckMessagingPuppet {
 
   private final ActorSystem system;
   private final Materializer materializer;

@@ -1,4 +1,4 @@
-package com.lightbend.microprofile.reactive.messaging.kafka;
+package com.lightbend.microprofile.reactive.messaging.kafka.tck;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;

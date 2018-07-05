@@ -9,19 +9,52 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lightbend-microprofile-reactive-messaging-kafka</artifactId>
-    <name>Lightbend MicroProfile Reactive Messaging Kafka</name>
-    <description>Lightbend MicroProfile Reactive Messaging :: Kafka support</description>
+    <artifactId>lightbend-microprofile-reactive-messaging-kafka-tck</artifactId>
+    <name>Lightbend MicroProfile Reactive Messaging Kafka TCK</name>
+    <description>Lightbend MicroProfile Reactive Messaging :: Kafka TCK tests</description>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>lightbend-microprofile-reactive-messaging</artifactId>
+            <artifactId>lightbend-microprofile-reactive-messaging-kafka</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Deps necessary to run the TCK -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
+            <artifactId>microprofile-reactive-messaging-tck</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>lightbend-microprofile-reactive-messaging-akka</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-stream-kafka_2.12</artifactId>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-weld-embedded</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

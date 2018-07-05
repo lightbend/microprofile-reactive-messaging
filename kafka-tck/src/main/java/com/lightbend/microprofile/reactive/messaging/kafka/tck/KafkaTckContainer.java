@@ -1,4 +1,4 @@
-package com.lightbend.microprofile.reactive.messaging.kafka;
+package com.lightbend.microprofile.reactive.messaging.kafka.tck;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -50,6 +50,8 @@ public class KafkaTckContainer implements TckContainer {
         if (!toDelete.isEmpty()) {
           log.debug("Deleting existing topics: " + String.join(", ", toDelete));
           client().deleteTopics(toDelete).all().get(testEnvironment().receiveTimeout().toMillis(), TimeUnit.MILLISECONDS);
+          log.debug("Waiting for topics to be deleted...");
+          Thread.sleep(1000);
         }
 
         List<NewTopic> newTopics = new ArrayList<>();

@@ -42,4 +42,12 @@ public class KafkaProducerMessage<K, T> implements Message<T> {
     return ack.get();
   }
 
+  @Override
+  public String toString() {
+    return "KafkaProducerMessage{" +
+        "key=" + key +
+        ", payload=" + payload +
+        ", ack=" + ack +
+        '}';
+  }
 }

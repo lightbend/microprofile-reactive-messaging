@@ -90,7 +90,7 @@ class ValidatedSubscribingStreamRunner<T> implements StreamRunner {
 
       Flow<Message<T>, Message<?>, ?> flow;
       if (wrappedIncoming()) {
-        flow = ((Flow<Message<T>, ?, ?>) rawFlow)
+        return (Flow) ((Flow<Message<T>, ?, ?>) rawFlow)
             .map(Message::of);
       } else if (descriptor.isIncomingDestinationWrapped()) {
         flow = Flow.<Message<T>>create()
