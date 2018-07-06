@@ -1,1 +1,4 @@
+#
+# Copyright (C) 2018 Lightbend Inc. <https://www.lightbend.com>
+#
 com.lightbend.microprofile.reactive.messaging.kafka.tck.KafkaAdminClientLoader
