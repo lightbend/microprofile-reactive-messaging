@@ -4,3 +4,7 @@ before_install:
   - bin/buildDeps.sh
   - bin/installKafka.sh
   - bin/startKafka.sh
+
+cache:
+  directories:
+  - $HOME/.m2
