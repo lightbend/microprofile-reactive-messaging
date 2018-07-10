@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -44,11 +44,11 @@ public class KafkaTckContainer implements TckContainer {
   }
 
   @Override
-  public List<DeploymentDescription> createDeployments(String... topics) {
+  public List<DeploymentDescription> createDeployments(Collection<String> topics) {
 
     try {
-      if (topics.length > 0) {
-        Set<String> toDelete = new HashSet<>(Arrays.asList(topics));
+      if (topics.size() > 0) {
+        Set<String> toDelete = new HashSet<>(topics);
         toDelete.retainAll(client().listTopics().names().get());
         if (!toDelete.isEmpty()) {
           log.debug("Deleting existing topics: " + String.join(", ", toDelete));
@@ -71,15 +71,15 @@ public class KafkaTckContainer implements TckContainer {
     }
 
     return Collections.singletonList(new DeploymentDescription("kafka", ShrinkWrap.create(JavaArchive.class)
-        .addClass(KafkaTckLocalContainerController.class)));
+        .addClass(KafkaTckMessagingPuppet.class)));
   }
 
   @Override
-  public void teardownTopics(String... topics) {
-    if (topics.length > 0) {
+  public void teardownTopics(Collection<String> topics) {
+    if (topics.size() > 0) {
       try {
         log.debug("Tearing down topics: " + String.join(", ", topics));
-        client().deleteTopics(Arrays.asList(topics)).all().get();
+        client().deleteTopics(topics).all().get();
       }
       catch (Exception e) {
         throw new RuntimeException(e);

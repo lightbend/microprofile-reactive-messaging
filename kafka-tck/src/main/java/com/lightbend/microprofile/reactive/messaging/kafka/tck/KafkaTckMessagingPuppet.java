@@ -12,6 +12,7 @@ import akka.kafka.javadsl.Producer;
 import akka.stream.Materializer;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
@@ -30,14 +31,14 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
 
 @ApplicationScoped
-public class KafkaTckLocalContainerController implements TckMessagingPuppet {
+public class KafkaTckMessagingPuppet implements TckMessagingPuppet {
 
   private final ActorSystem system;
   private final Materializer materializer;
   private static final AtomicLong ids = new AtomicLong();
 
   @Inject
-  public KafkaTckLocalContainerController(ActorSystem system, Materializer materializer) {
+  public KafkaTckMessagingPuppet(ActorSystem system, Materializer materializer) {
     this.system = system;
     this.materializer = materializer;
   }
@@ -60,25 +61,35 @@ public class KafkaTckLocalContainerController implements TckMessagingPuppet {
   @Override
   public Optional<Message<byte[]>> receiveMessage(String topic, Duration timeout) {
     ConsumerSettings<byte[], byte[]> settings = ConsumerSettings.create(system, new ByteArrayDeserializer(), new ByteArrayDeserializer())
-        .withProperty(ProducerConfig.CLIENT_ID_CONFIG, "tck-local-container-controller-receiver-" + ids.incrementAndGet())
+        .withProperty(ConsumerConfig.CLIENT_ID_CONFIG, "tck-local-container-controller-receiver-" + ids.incrementAndGet())
         .withGroupId("tck-local-container-receiver")
+        .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
         .withBootstrapServers("localhost:9092");
     try {
-      return Consumer.committableSource(settings, Subscriptions.topics(topic))
+      Optional<Message<byte[]>> message = Consumer.committableSource(settings, Subscriptions.topics(topic))
           .idleTimeout(timeout)
+          .take(1)
+          .mapAsync(1, msg ->
+            msg.committableOffset().commitJavadsl()
+                .thenApply(done ->
+                    Optional.of((Message<byte[]>) new SimpleMessage<>(msg.record().value()))
+                )
+          )
           .runWith(Sink.head(), materializer)
-          .thenCompose(msg ->
-              msg.committableOffset().commitJavadsl()
-               .thenApply(done ->
-                   Optional.of((Message<byte[]>) new SimpleMessage<>(msg.record().value()))
-               )
-          ).exceptionally(ex -> {
-            if (ex instanceof TimeoutException) {
+          .exceptionally(ex -> {
+            Throwable unwrapped = ex;
+            if (ex instanceof CompletionException) {
+              unwrapped = ex.getCause();
+            }
+            if (unwrapped instanceof TimeoutException) {
               return Optional.empty();
-            } else {
-              throw new CompletionException(ex);
+            }
+            else {
+              throw new CompletionException(unwrapped);
             }
           }).toCompletableFuture().get(testEnvironment().receiveTimeout().toMillis(), TimeUnit.MILLISECONDS);
+
+      return message;
     }
     catch (Exception e) {
       throw new RuntimeException(e);

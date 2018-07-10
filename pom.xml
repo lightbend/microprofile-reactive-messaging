@@ -116,6 +116,11 @@
             </dependency>
             <dependency>
                 <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-slf4j_2.12</artifactId>
+                <version>${akka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-stream-kafka_2.12</artifactId>
                 <version>0.20</version>
             </dependency>
