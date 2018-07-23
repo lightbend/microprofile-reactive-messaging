@@ -1,4 +1,6 @@
 #
 # Copyright (C) 2018 Lightbend Inc. <https://www.lightbend.com>
 #
-com.lightbend.microprofile.reactive.messaging.kafka.tck.KafkaAdminClientLoader
+com.lightbend.microprofile.reactive.messaging.kafka.tck.client.KafkaArquillianTckExtension
+com.lightbend.microprofile.reactive.messaging.kafka.tck.container.KafkaArquillianTckRemoteExtension
+org.eclipse.microprofile.reactive.messaging.tck.container.TckArquillianRemoteExtension
