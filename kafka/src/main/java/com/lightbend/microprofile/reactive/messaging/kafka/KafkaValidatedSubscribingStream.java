@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 class KafkaValidatedSubscribingStream<K, T> implements ValidatedSubscribingStream<T> {
 
-  private static final long MIN_BACKOFF_MS = 3000;
+  private static final long MIN_BACKOFF_MS = 500;
   private static final long MAX_BACKOFF_MS = 30000;
   private static final double RANDOM_FACTOR = 0.2;
   private static final int MAX_RESTARTS = -1;

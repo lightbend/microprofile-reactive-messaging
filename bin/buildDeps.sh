@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # This should be set to the commit hash that is being tracked.
-MP_REACTIVE_COMMIT="60f67ef"
+MP_REACTIVE_COMMIT="e72a11b"
 # To track a particular pull request, put it's number here, otherwise comment it out.
-MP_REACTIVE_PR="64"
+# MP_REACTIVE_PR="69"
 
-LIGHTBEND_MP_STREAMS_COMMIT="51becc8"
+LIGHTBEND_MP_STREAMS_COMMIT="a53a114"
 #LIGHTBEND_MP_STREAMS_PR=""
 
 set -e
