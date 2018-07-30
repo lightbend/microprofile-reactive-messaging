@@ -5,13 +5,7 @@ package com.lightbend.microprofile.reactive.messaging.impl;
 
 import akka.NotUsed;
 import akka.japi.Pair;
-import akka.stream.Attributes;
-import akka.stream.FanInShape2;
-import akka.stream.FlowShape;
-import akka.stream.Graph;
-import akka.stream.Inlet;
-import akka.stream.Outlet;
-import akka.stream.UniformFanOutShape;
+import akka.stream.*;
 import akka.stream.javadsl.Broadcast;
 import akka.stream.javadsl.Flow;
 import akka.stream.javadsl.GraphDSL;
@@ -39,12 +33,16 @@ public class FlowUtils {
       FanInShape2<Message<R>, Message<T>, Pair<Message<R>, Message<T>>> zip =
           builder.add(Zip.create());
 
+      // this ensures that the user side of the flow is allowed to do buffering, otherwise the bypass side will not pull,
+      // preventing the broadcast from sending more elements.
+      // todo make buffer size configurable
+      Flow<Message<T>, Message<T>, NotUsed> bypassBuffer = Flow.<Message<T>>create().buffer(16, OverflowStrategy.backpressure());
+
       builder.from(bcast).via(builder.add(flow)).toInlet(zip.in0());
-      builder.from(bcast).toInlet(zip.in1());
+      builder.from(bcast).via(builder.add(bypassBuffer)).toInlet(zip.in1());
 
       Flow<Pair<Message<R>, Message<T>>, Message<R>, NotUsed> zipF = Flow.<Pair<Message<R>, Message<T>>>create().map(pair ->
-          Message.of(pair.first().getPayload(), () ->
-              CompletableFuture.allOf(pair.first().ack().toCompletableFuture(), pair.second().ack().toCompletableFuture()))
+          new MessageWithCause<>(pair.second(), pair.first())
       );
 
       return FlowShape.of(bcast.in(), builder.from(zip.out()).via(builder.add(zipF)).out());
