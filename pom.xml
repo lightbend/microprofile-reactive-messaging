@@ -19,8 +19,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <microprofile.reactive.messaging.version>1.0-SNAPSHOT</microprofile.reactive.messaging.version>
-        <microprofile.reactive.streams.akka.version>1.0-SNAPSHOT</microprofile.reactive.streams.akka.version>
+        <microprofile.reactive.messaging.version>1.0-alpha-jroper-3</microprofile.reactive.messaging.version>
+        <microprofile.reactive-streams-operators.version>1.0</microprofile.reactive-streams-operators.version>
+        <microprofile.reactive.streams.akka.version>1.0.0</microprofile.reactive.streams.akka.version>
         <akka.version>2.5.13</akka.version>
     </properties>
 
@@ -73,6 +74,16 @@
                 <groupId>com.lightbend.microprofile.reactive.streams</groupId>
                 <artifactId>lightbend-microprofile-reactive-streams-akka</artifactId>
                 <version>${microprofile.reactive.streams.akka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
+                <artifactId>microprofile-reactive-streams-operators-api</artifactId>
+                <version>${microprofile.reactive-streams-operators.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
+                <artifactId>microprofile-reactive-streams-operators-core</artifactId>
+                <version>${microprofile.reactive-streams-operators.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.microprofile.reactive.messaging</groupId>

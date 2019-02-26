@@ -13,7 +13,6 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 
 import java.io.Closeable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 class ValidatedSubscribingStreamRunner<T> implements StreamRunner {

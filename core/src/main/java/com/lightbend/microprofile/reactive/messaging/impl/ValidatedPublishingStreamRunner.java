@@ -16,7 +16,7 @@ import akka.stream.javadsl.Source;
 import com.lightbend.microprofile.reactive.messaging.spi.ValidatedPublishingStream;
 import com.lightbend.microprofile.reactive.streams.akka.AkkaEngine;
 import org.eclipse.microprofile.reactive.messaging.Message;
-import org.eclipse.microprofile.reactive.streams.PublisherBuilder;
+import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
 import org.reactivestreams.Publisher;
 
 import java.io.Closeable;

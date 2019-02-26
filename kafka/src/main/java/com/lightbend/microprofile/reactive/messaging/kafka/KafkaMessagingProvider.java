@@ -72,10 +72,10 @@ public class KafkaMessagingProvider implements LightbendMessagingProvider {
 
   @Override
   public <T> ValidatedPublishingStream<T> validatePublishingStream(PublishingStream<T> stream) {
-    if (stream.outgoing().topic().equals("")) {
+    if (stream.outgoing().value().equals("")) {
       throw new DeploymentException("Outgoing topic not defined on " + stream.annotated());
     }
-    return new KafkaValidatedPublishingStream<>(stream.outgoing().topic(), createProducerSettings(stream), kafkaInstanceProvider,
+    return new KafkaValidatedPublishingStream<>(stream.outgoing().value(), createProducerSettings(stream), kafkaInstanceProvider,
         annotatedName(stream.annotated()));
   }
 
@@ -104,10 +104,10 @@ public class KafkaMessagingProvider implements LightbendMessagingProvider {
 
   @Override
   public <T> ValidatedSubscribingStream<T> validateSubscribingStream(SubscribingStream<T> stream) {
-    if (stream.incoming().topic().equals("")) {
+    if (stream.incoming().value().equals("")) {
       throw new DeploymentException("Incoming topic not defined on " + stream.annotated());
     }
-    return new KafkaValidatedSubscribingStream<>(materializer, createConsumerSettings(stream), stream.incoming().topic(), kafkaInstanceProvider,
+    return new KafkaValidatedSubscribingStream<>(materializer, createConsumerSettings(stream), stream.incoming().value(), kafkaInstanceProvider,
         annotatedName(stream.annotated()));
   }
 
