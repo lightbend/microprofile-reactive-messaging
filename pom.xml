@@ -22,7 +22,7 @@
         <microprofile.reactive.messaging.version>1.0-alpha-jroper-3</microprofile.reactive.messaging.version>
         <microprofile.reactive-streams-operators.version>1.0</microprofile.reactive-streams-operators.version>
         <microprofile.reactive.streams.akka.version>1.0.0</microprofile.reactive.streams.akka.version>
-        <akka.version>2.5.13</akka.version>
+        <akka.version>2.5.16</akka.version>
     </properties>
 
     <licenses>
